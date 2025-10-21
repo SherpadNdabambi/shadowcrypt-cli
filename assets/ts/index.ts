@@ -8,8 +8,8 @@ const program = new Command()
   .description(
     "Node.js CLI utility to encrypt/decrypt files with various symmetric ciphers."
   )
-  .name("universal-decryption-tool-cli")
-  .version("1.0.0");
+  .name("shadowcrypt-cli")
+  .version("1.0.1");
 
 program.addCommand(decryptCmd);
 program.addCommand(encryptCmd);
