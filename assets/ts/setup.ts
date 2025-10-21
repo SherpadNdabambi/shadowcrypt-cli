@@ -68,6 +68,24 @@ async function runSetup() {
     },
   ]);
 
+  // Validate: Prevent exact name/slug match to avoid replacement overlap
+  if (answers.projectName.toLowerCase() === answers.projectSlug) {
+    console.log(
+      "Warning: Project name and slug should differ (e.g., title-case name). Reprompting..."
+    );
+    const namePrompt = await inquirer.prompt([
+      {
+        type: "input",
+        name: "projectName",
+        message: "Enter your project name (title-case, e.g., My App):",
+        default:
+          answers.projectName.charAt(0).toUpperCase() +
+          answers.projectName.slice(1),
+      },
+    ]);
+    answers.projectName = namePrompt.projectName;
+  }
+
   const replacements = [
     // CHANGELOG.md
     {
@@ -144,7 +162,7 @@ async function runSetup() {
   for (const { file, search, replace } of replacements) {
     try {
       const content = await readFile(file, "utf8");
-      const updatedContent = content.replace(new RegExp(search, "gi"), replace);
+      const updatedContent = content.replace(new RegExp(search, "g"), replace);
       await writeFile(file, updatedContent, "utf8");
       console.log(`Updated ${file}`);
     } catch (error) {
