@@ -75,7 +75,7 @@ To install ShadowCrypt CLI, follow these simple steps.
 
 Make sure you have the following packages installed globally on your machine to use this template.
 
-1. [Node.js 20.6.0+][Node.js url]. The latest Node.js version known to work with ShadowCrypt CLI is v24.10.0 (Run `nvm use` (if using nvm) to switch to v24.10.0.).
+1. [Node.js 20.6.0+][Node.js url]. The latest Node.js version known to work with ShadowCrypt CLI is v24.10.0.
 1. [npm][npm url].
 
 ### Installation
@@ -169,8 +169,8 @@ See the changelog [here][changelog url].
 
 Sherpad Ndabambi
 
-<span title="Personal website">[<img alt="Website icon" src="./assets/img/website-ui-web-svgrepo-com.svg" style="height: 32px">][Personal website url]</span>
-<span title="Email">[<img alt="Gmail icon" src="./assets/img/gmail-old-svgrepo-com.svg" style="height: 32px">][Email address]<span>
+[![Website icon][Website icon url]][Personal website url]
+[![Gmail icon][Gmail icon url]][Email address]
 
 <div align=right>
 
