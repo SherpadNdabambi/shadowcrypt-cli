@@ -1,4 +1,4 @@
-<svg height="128" viewBox="0 0 512 452" xmlns="http://www.w3.org/2000/svg">
+<svg height="128" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
 
   <defs>
 
@@ -32,27 +32,30 @@
       <!-- Text file corner shadow -->
       <path d="M400 0 L460 60 L400 60 Z" fill="url(#flapGrad)" />
 
-      <!-- Text file Text lines -->
+      <!-- Text file text lines -->
 
-      <!-- Text file Text Line 1 -->
-      <rect x="60" y="40" fill="rgb(198, 202, 207)" width="330" height="10" />
+      <!-- Text file text line 1 -->
+      <rect x="60" y="60" fill="rgb(198, 202, 207)" width="330" height="10" />
 
-      <!-- Text file Text Line 1 -->
-      <rect x="60" y="80" fill="rgb(198, 202, 207)" width="390" height="10" />
+      <!-- Text file text line 2 -->
+      <rect x="60" y="90" fill="rgb(198, 202, 207)" width="390" height="10" />
 
-      <!-- Text file Text Line 2 -->
-      <rect x="60" y="100" fill="rgb(198, 202, 207)" width="390" height="10" />
-
-      <!-- Text file Text Line 3 -->
+      <!-- Text file text line 3 -->
       <rect x="60" y="120" fill="rgb(198, 202, 207)" width="390" height="10" />
 
-      <!-- End Text file Text lines -->
+      <!-- Text file text line 4 -->
+      <rect x="60" y="150" fill="rgb(198, 202, 207)" width="390" height="10" />
+
+      <!-- Text file text line 5 -->
+      <rect x="60" y="180" fill="rgb(198, 202, 207)" width="390" height="10" />
+
+      <!-- End Text file text lines -->
 
     </g>
     <!-- Text file -->
 
     <!-- Picture -->
-    <g transform="rotate(-11.25, 256, 256)">
+    <g transform="translate(0,60) rotate(-11.25, 256, 256)">
       <path d="M50 36 H400 L460 96 V200 H50 Z" fill="rgb(109, 171, 228)" />
 
       <!-- Picture corner shadow -->
@@ -109,17 +112,19 @@
   <!-- Folder -->
   <g>
 
-    <!-- Folder shine -->
-    <path d="M10,190 L125,190 L150,140 L502,140 Q512,140 512,150 L492,442 L20,442 L0,200 Q0,190 10,190 Z"
+    <!-- Folder body -->
+    <path d="M10,250 L125,250 L150,200 L502,200 Q512,200 512,210 L492,502 L20,502 L0,260 Q0,250 10,250 Z"
       fill="rgb(12, 13, 43)" />
-    <!-- End Folder shine -->
+    <!-- End Folder body -->
 
     <!-- Shield shadow -->
-    <polygon points="187.5,236 320,280 270,452 124.71,452" fill="rgb(11, 11, 45)" />
+    <path
+      d="M187.5,296 L198.14,296 L202.5,281 L217.5,281 L217.5,296 L228.14,296 L232.5,281 L243.14,281 L247.5,266 L262.5,266 L262.5,296 L273.14,296 L277.5,281 L292.5,281 L292.5,296 L307.5,296 L307.5,311 L321.216,316 L317.086,341 L318.08,345.21 A25,25 0 1 0 354.3,374 L314.18,512 L124.71,512"
+      opacity="0.5" />
     <!-- End Shield shadow -->
 
     <!-- Shield -->
-    <g transform="scale(0.75) translate(250, 275)">
+    <g transform="scale(0.75) translate(250, 355)">
 
       <!-- Blocks -->
       <g clip-path="url(#shieldClip)">
@@ -226,7 +231,7 @@
     <!-- End Shield -->
 
     <!-- Key -->
-    <g fill="rgb(153, 153, 153)" transform="rotate(15 260 305) scale(0.5) translate(500, 525)">
+    <g fill="rgb(153, 153, 153)" transform="rotate(15 260 305) scale(0.5) translate(530, 645)">
 
       <path
         d="M10,35 L110,35 A 50 50 0 1 1 110 70 L105,70 L100,65 L90,65 L80,75 L70,65 L65,65 L55,75 L45,65 L40,65 L30,75 L20,65 L10,65 L0,45 z M195 52.5 A10 10 0 1 0 175 52.5 A10 10 0 1 0 195 52.5 z" />
@@ -234,20 +239,16 @@
     </g>
     <!-- End Key -->
 
-    <!-- Text shadow -->
-    <polygon points="156,360 356,360 329.26,452 156,452" fill="rgb(11, 11, 45)" />
-    <!-- End Text shadow -->
-
     <!-- App Name -->
-    <text x="156" y="375" font-family="Sans" font-size="32" style="fill: url(#fontGradient)">ShadowCrypt</text>
+    <text x="156" y="435" font-family="Sans" font-size="32" style="fill: url(#fontGradient)">ShadowCrypt</text>
     <!-- End App Name -->
 
     <!-- Folder lower shadow -->
-    <path d="M20,442 L492,442 Q492,452 482,452 L30.75,452 Q20.75,452 20,442 Z" fill="rgb(20,20,30)" />
+    <path d="M20,502 L492,502 Q492,512 482,512 L30.75,512 Q20.75,512 20,502 Z" fill="rgb(20,20,30)" />
     <!-- End Folder lower shadow -->
 
     <!-- Folder upper shadow -->
-    <path d="M30.25,180 L118.33,180 L150,140 L125,190 L32.5,190 Z" fill="rgb(20,20,30)" />
+    <path d="M30.25,240 L118.33,240 L150,200 L125,250 L32.5,250 Z" fill="rgb(20,20,30)" />
     <!-- End Folder upper shadow -->
 
   </g>
