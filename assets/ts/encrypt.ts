@@ -1,12 +1,62 @@
+/**
+ * @file encrypt.ts
+ * @description Module containing the encrypt function
+ *
+ * @exports encrypt
+ */
+
 import blf from "blowfish-js";
-import { Command } from "commander";
 import fs from "fs";
 import { password, select } from "@inquirer/prompts";
 import * as readline from "readline";
 
 /**
  * Encrypt a file using the specified options.
- * @param options Encryption options
+ *
+ * @param {string} cmdInput The input file path
+ * @param {EncryptCmdOptions} cmdOptions Command-line options
+ *
+ * @returns {void}
+ */
+async function encrypt(
+  cmdInput: string,
+  cmdOptions: EncryptCmdOptions
+): Promise<void> {
+  let key = cmdOptions.key;
+  if (!key) {
+    key = await password({
+      message: "Enter encryption key:",
+      mask: "*",
+    });
+  }
+  const algorithms = [
+      { name: "Blowfish", value: "blowfish" },
+      // Add more here in future
+    ],
+    selectedAlgo = await select<string>({
+      choices: algorithms,
+      message: "Choose algorithm:",
+    }),
+    opts: EncryptOptions = {
+      algo: selectedAlgo,
+      input: cmdInput,
+      key,
+      output: cmdOptions.outFile,
+      pad: cmdOptions.pad || false,
+    };
+
+  console.log("Starting encryption process...");
+
+  encryptFile(opts);
+  rl.close();
+}
+
+/**
+ * Encrypt a file using the specified options.
+ *
+ * @param {EncryptOptions} options Encryption options
+ *
+ * @returns {void}
  */
 function encryptFile(options: EncryptOptions): void {
   const inputPath = options.input,
@@ -58,10 +108,12 @@ function encryptFile(options: EncryptOptions): void {
 
 /**
  * Encrypt data using Blowfish in ECB mode.
- * @param keyBuffer The key to use for encryption
- * @param pad Whether to apply PKCS#7 padding
- * @param plaintext The data to encrypt
- * @returns The encrypted data
+ *
+ * @param {Buffer} keyBuffer The key to use for encryption
+ * @param {boolean} pad Whether to apply PKCS#7 padding
+ * @param {Buffer} plaintext The data to encrypt
+ *
+ * @returns {Buffer} The encrypted data
  */
 function encryptWithBlowfish(
   keyBuffer: Buffer,
@@ -86,15 +138,23 @@ function encryptWithBlowfish(
 
 /**
  * Pad data using PKCS#7 scheme.
- * @param data Data to pad
- * @param blockSize Block size in bytes
- * @returns Padded data
+ *
+ * @param {Buffer} data Data to pad
+ * @param {number} blockSize Block size in bytes
+ *
+ * @returns {Buffer} Padded data
  */
 function padPKCS7(data: Buffer, blockSize: number): Buffer {
   const padLen = blockSize - (data.length % blockSize) || blockSize,
     pad = Buffer.alloc(padLen, padLen);
 
   return Buffer.concat([data, pad]);
+}
+
+interface EncryptCmdOptions {
+  key?: string;
+  outFile?: string;
+  pad?: boolean;
 }
 
 /**
@@ -114,47 +174,4 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-// Command Setup
-const encryptCmd = new Command();
-
-encryptCmd
-  .action(async (cmdInput: string, cmdOptions: any) => {
-    let key = cmdOptions.key;
-    if (!key) {
-      key = await password({
-        message: "Enter encryption key:",
-        mask: "*",
-      });
-    }
-    const algorithms = [
-        { name: "Blowfish", value: "blowfish" },
-        // Add more here in future
-      ],
-      selectedAlgo = await select<string>({
-        choices: algorithms,
-        message: "Choose algorithm:",
-      }),
-      opts: EncryptOptions = {
-        algo: selectedAlgo,
-        input: cmdInput,
-        key,
-        output: cmdOptions.outFile,
-        pad: cmdOptions.pad,
-      };
-
-    console.log("Starting encryption process...");
-
-    encryptFile(opts);
-    rl.close();
-  })
-  .argument("<input>", "Path to plaintext input file")
-  .description("Encrypt a file")
-  .name("encrypt")
-  .option("-k, --key <string>", "Encryption key (UTF-8)")
-  .option(
-    "-o, --outFile <path>",
-    "Path for encrypted output file (default: <input>.encrypted)"
-  )
-  .option("-p, --pad", "Add PKCS#7 padding before encryption", true);
-
-export { encryptCmd, encryptFile, encryptWithBlowfish, padPKCS7 };
+export { encrypt, encryptFile, encryptWithBlowfish, padPKCS7 };

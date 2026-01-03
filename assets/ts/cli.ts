@@ -1,8 +1,14 @@
 #!/usr/bin/env node
+/**
+ * @file cli.ts
+ * @description Main CLI entry point
+ *
+ * @exports cli
+ */
 
 import { Command } from "commander";
-import { decryptCmd } from "./decrypt.js";
-import { encryptCmd } from "./encrypt.js";
+import { decryptCmd } from "./commands/decryptCmd.js";
+import { encryptCmd } from "./commands/encryptCmd.js";
 
 const program = new Command()
   .description(

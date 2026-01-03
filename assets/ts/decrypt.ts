@@ -1,12 +1,61 @@
+/**
+ * @file decrypt.ts
+ * @description Module containing the decrypt function
+ *
+ * @exports decrypt
+ */
+
 import blf from "blowfish-js";
-import { Command } from "commander";
 import fs from "fs";
 import { password, select } from "@inquirer/prompts";
 import * as readline from "readline";
 
 /**
  * Decrypt a file using the specified options.
- * @param options Decryption options
+ *
+ * @param {string} cmdInput The input file path
+ * @param {DecryptCmdOptions} cmdOptions Command-line options
+ *
+ * @returns {Promise<void>} a promise that resolves when the decryption is complete
+ */
+async function decrypt(cmdInput: string, cmdOptions: DecryptCmdOptions) {
+  let key = cmdOptions.key;
+
+  if (!key) {
+    key = await password({
+      message: "Enter decryption key:",
+      mask: "*",
+    });
+  }
+
+  const algorithms = [
+      { name: "Blowfish", value: "blowfish" },
+      // Add more here in future
+    ],
+    selectedAlgo = await select<string>({
+      choices: algorithms,
+      message: "Choose algorithm:",
+    }),
+    opts: DecryptOptions = {
+      input: cmdInput,
+      output: cmdOptions.outFile,
+      key,
+      algo: selectedAlgo,
+      unpad: cmdOptions.unpad || false,
+    };
+
+  console.log("Starting decryption process...");
+
+  decryptFile(opts);
+  rl.close();
+}
+
+/**
+ * Decrypt a file using the specified options.
+ *
+ * @param {DecryptOptions} options Decryption options
+ *
+ * @returns {void}
  */
 function decryptFile(options: DecryptOptions): void {
   const inputPath = options.input,
@@ -55,10 +104,12 @@ function decryptFile(options: DecryptOptions): void {
 
 /**
  * Decrypt a ciphertext using Blowfish algorithm.
- * @param ciphertext The encrypted data to decrypt
- * @param keyBuffer The key to use for decryption
- * @param unpad Whether to remove padding from the decrypted data
- * @returns The decrypted data
+ *
+ * @param {Buffer} ciphertext The encrypted data to decrypt
+ * @param {Buffer} keyBuffer The key to use for decryption
+ * @param {boolean} unpad Whether to remove padding from the decrypted data
+ *
+ * @returns {Buffer} The decrypted data
  */
 function decryptWithBlowfish(
   ciphertext: Buffer,
@@ -86,6 +137,12 @@ function decryptWithBlowfish(
   return finalData;
 }
 
+interface DecryptCmdOptions {
+  key?: string;
+  outFile?: string;
+  unpad?: boolean;
+}
+
 /**
  * Decryption options interface.
  */
@@ -103,49 +160,4 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-// Command Setup
-const decryptCmd = new Command();
-
-decryptCmd
-  .action(async (cmdInput: string, cmdOptions: any) => {
-    let key = cmdOptions.key;
-
-    if (!key) {
-      key = await password({
-        message: "Enter decryption key:",
-        mask: "*",
-      });
-    }
-
-    const algorithms = [
-        { name: "Blowfish", value: "blowfish" },
-        // Add more here in future
-      ],
-      selectedAlgo = await select<string>({
-        choices: algorithms,
-        message: "Choose algorithm:",
-      }),
-      opts: DecryptOptions = {
-        input: cmdInput,
-        output: cmdOptions.outFile,
-        key,
-        algo: selectedAlgo,
-        unpad: cmdOptions.unpad,
-      };
-
-    console.log("Starting decryption process...");
-
-    decryptFile(opts);
-    rl.close();
-  })
-  .argument("<input>", "Path to encrypted input file")
-  .description("Decrypt a file")
-  .name("decrypt")
-  .option("-k, --key <string>", "Decryption key (UTF-8)")
-  .option(
-    "-o, --outFile <path>",
-    "Path for decrypted output file (default: <input>.decrypted)"
-  )
-  .option("-u, --unpad", "Remove PKCS#7 padding after decryption", false);
-
-export { decryptCmd, decryptFile, decryptWithBlowfish };
+export { decrypt, decryptFile, decryptWithBlowfish };
