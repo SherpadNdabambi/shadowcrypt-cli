@@ -1,7 +1,7 @@
 {
   "author": "Sherpad Ndabambi",
   "bin": {
-    "shadowcrypt-cli": "./dist/index.js"
+    "shadowcrypt-cli": "./dist/cli.js"
   },
   "bugs": {
     "url": "https://github.com/sherpadndabambi/shadowcrypt-cli/issues"
@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/sherpadndabambi/shadowcrypt-cli#readme",
   "license": "ISC",
-  "main": "dist/index.js",
+  "main": "dist/cli.js",
   "name": "shadowcrypt-cli",
   "repository": {
     "type": "git",
@@ -45,7 +45,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && node --env-file=.env dist/index.js",
+    "start": "npm run build && node --env-file=.env dist/cli.js",
     "setup": "tsx assets/ts/setup.ts",
     "test": "jest"
   },
