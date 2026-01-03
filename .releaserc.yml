@@ -1,0 +1,24 @@
+branches:
+  - main
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - "@semantic-release/release-notes-generator"
+  - - "@semantic-release/changelog"
+    - changelogTitle: |
+        # Changelog
+
+        All notable changes to ShadowCrypt CLI will be documented in this file.
+
+        The format is based on [Keep a Changelog][Keep a Changelog url], and this project adheres to [Semantic Versioning][Semantic Versioning url].
+  # - "@semantic-release/npm"  # optional if you publish to npm
+  - - "@semantic-release/exec"
+    - prepareCmd: |
+        npm version ${nextRelease.version} --no-git-tag-version
+        sed -i "s/.version(\"[^\"]*\")/.version(\"${nextRelease.version}\")/" assets/ts/cli.ts
+  - - "@semantic-release/git"
+    - assets:
+        - package.json
+        - package-lock.json # if you have one
+        - CHANGELOG.md
+        - assets/ts/cli.ts
+      message: "release: ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
